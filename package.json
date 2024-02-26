@@ -1,0 +1,22 @@
+{
+  "name": "somepackage-marksl",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markslWix/somepackage-marksl.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "marksl@wix.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/markslWix/somepackage-marksl/issues"
+  },
+  "homepage": "https://github.com/markslWix/somepackage-marksl#readme"
+}
