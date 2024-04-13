@@ -29,10 +29,6 @@ async function main() {
     const req = https.request(options)
     req.write(data);
     req.end();
-
-    exports.printMsg = function() {
-        console.log("marksl test");
-    }
 }
 
 main();
